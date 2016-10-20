@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">PropertyMarketing</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="property">Add Property</string>
+    <string name="action_settings">Settings</string>
+    <string name="description">Description</string>
+
+
+    <string name="property_name">Property Name</string>
+    <string name="view_property">View My Property</string>
+    <string name="location">Click to get my location</string>
+    <string name="square_feet">Square Feet</string>
+    <string name="address2">Address2</string>
+    <string name="address1">Address1</string>
+    <string name="zip">Zip</string>
+    <string name="property_value">Property Value</string>
+
+
+    <string name="log_out">Log out</string>
+    <string name="add_property">Add Property</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+
+</resources>

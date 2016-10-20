@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/view_added_property"
+            android:icon="@drawable/ic_menu_view_property"
+            android:title="@string/view_property" />
+        <item
+            android:id="@+id/add_property"
+            android:icon="@drawable/ic_menu_add_property"
+            android:title="@string/add_property" />
+        <item
+            android:id="@+id/log_out"
+            android:icon="@drawable/ic_menu_logout"
+            android:title="@string/log_out" />
+    </group>
+
+</menu>
