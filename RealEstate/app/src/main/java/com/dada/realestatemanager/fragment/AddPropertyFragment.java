@@ -1,9 +1,5 @@
-package com.example.monisha.propertymarketing;
+package com.dada.realestatemanager.fragment;
 
-/**
- * Created by monisha on 10/20/2016.
- */
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +24,11 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.dada.realestatemanager.AppController;
+import com.dada.realestatemanager.R;
+import com.dada.realestatemanager.util.Constant;
+import com.dada.realestatemanager.util.SimpleLocation;
+import com.dada.realestatemanager.util.VolleyMultipartRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,8 +36,11 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Created by WYD on 7/25/2016.
+ */
 public class AddPropertyFragment extends Fragment {
+
     private SimpleLocation mLocation;
     ProgressDialog pDialog;
     final private String[] types = new String[]{"Apartment", "Condominium", "Individual House", "Villa", "Townhouse"};
@@ -44,6 +49,7 @@ public class AddPropertyFragment extends Fragment {
     private TextView submit;
     private EditText propertyName, property_address1, property_address2, property_zip, property_location, property_value, property_size, property_description;
     private ImageView propertyImage1, propertyImage2, propertyImage3;
+
     Bitmap bitmap1, bitmap2, bitmap3;
 
     @Nullable
@@ -196,7 +202,7 @@ public class AddPropertyFragment extends Fragment {
         pDialog.setMessage("Loading...");
         pDialog.show();
 
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constants.ADD_PROPERTY_URL, new Response.Listener<NetworkResponse>() {
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constant.ADD_PROPERTY_URL, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
                 String resultResponse = new String(response.data);
@@ -282,4 +288,5 @@ public class AddPropertyFragment extends Fragment {
             }
         }
     }
+
 }

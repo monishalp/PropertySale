@@ -1,0 +1,21 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=8E:BF:A2:4A:DE:2D:29:FC:A6:E7:E3:7B:27:02:9B:DD:04:60:18:66%3Bcom.dada.realestatemanager.activity
+
+    You can also add your credentials to an existing key, using this line:
+    8E:BF:A2:4A:DE:2D:29:FC:A6:E7:E3:7B:27:02:9B:DD:04:60:18:66;com.dada.realestatemanager.activity
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyDTz8mHEyMYOe2G9ZSKicQwLaEpKDQrpTI
+    </string>
+</resources>

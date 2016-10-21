@@ -1,8 +1,5 @@
-package com.example.monisha.propertymarketing;
+package com.dada.realestatemanager.fragment;
 
-/**
- * Created by monisha on 10/20/2016.
- */
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,12 +18,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.dada.realestatemanager.AppController;
+import com.dada.realestatemanager.R;
+import com.dada.realestatemanager.util.Constant;
+import com.dada.realestatemanager.util.SimpleLocation;
+import com.dada.realestatemanager.util.VolleyMultipartRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,8 +35,8 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+public class EditPropertyFragment extends Fragment {
 
-public class AddPropertyFragment extends Fragment {
     private SimpleLocation mLocation;
     ProgressDialog pDialog;
     final private String[] types = new String[]{"Apartment", "Condominium", "Individual House", "Villa", "Townhouse"};
@@ -43,14 +44,15 @@ public class AddPropertyFragment extends Fragment {
     private String id, name, type, category, address1, address2, zip, latitude, longitude, cost, size, description;
     private TextView submit;
     private EditText propertyName, property_address1, property_address2, property_zip, property_location, property_value, property_size, property_description;
+
     private ImageView propertyImage1, propertyImage2, propertyImage3;
     Bitmap bitmap1, bitmap2, bitmap3;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.add_property_fragment, container, false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Add Property");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.edit_property_fragment, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Edit Property");
 
         // construct a new instance
         mLocation = new SimpleLocation(getActivity());
@@ -65,18 +67,19 @@ public class AddPropertyFragment extends Fragment {
         }
 
         final Spinner categorySpinner, typeSpinner;
-        typeSpinner = (Spinner) v.findViewById(R.id.property_type);
-        categorySpinner = (Spinner) v.findViewById(R.id.property_category);
-        submit = (TextView) v.findViewById(R.id.add_property_submit);
+        typeSpinner = (Spinner) v.findViewById(R.id.edit_property_type);
+        categorySpinner = (Spinner) v.findViewById(R.id.edit_property_category);
+        submit = (TextView) v.findViewById(R.id.edit_property_submit);
 
-        propertyName = (EditText) v.findViewById(R.id.property_name);
-        property_address1 = (EditText) v.findViewById(R.id.property_address_1);
-        property_address2 = (EditText) v.findViewById(R.id.property_address_2);
-        property_zip = (EditText) v.findViewById(R.id.property_zip);
-        property_location = (EditText) v.findViewById(R.id.property_location);
-        property_value = (EditText) v.findViewById(R.id.property_cost);
-        property_size = (EditText) v.findViewById(R.id.property_size);
-        property_description = (EditText) v.findViewById(R.id.property_description);
+        propertyName = (EditText) v.findViewById(R.id.edit_property_name);
+        property_address1 = (EditText) v.findViewById(R.id.edit_property_address_1);
+        property_address2 = (EditText) v.findViewById(R.id.edit_property_address_2);
+        property_zip = (EditText) v.findViewById(R.id.edit_property_zip);
+        property_location = (EditText) v.findViewById(R.id.edit_property_location);
+        property_value = (EditText) v.findViewById(R.id.edit_property_cost);
+        property_size = (EditText) v.findViewById(R.id.edit_property_size);
+        property_description = (EditText) v.findViewById(R.id.edit_property_description);
+
         propertyImage1 = (ImageView) v.findViewById(R.id.upload_img1);
         propertyImage2 = (ImageView) v.findViewById(R.id.upload_img2);
         propertyImage3 = (ImageView) v.findViewById(R.id.upload_img3);
@@ -88,6 +91,37 @@ public class AddPropertyFragment extends Fragment {
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, types);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(typeAdapter);
+
+        switch (ViewPropertyFragment.editProperty.getType()) {
+            case "Apartment":
+                typeSpinner.setSelection(0);
+                break;
+            case "Condominium":
+                typeSpinner.setSelection(1);
+                break;
+            case "Individual House":
+                typeSpinner.setSelection(2);
+                break;
+            case "Villa":
+                typeSpinner.setSelection(3);
+                break;
+            case "Townhouse":
+                typeSpinner.setSelection(4);
+                break;
+            default:
+                break;
+        }
+
+        switch (ViewPropertyFragment.editProperty.getCategory()) {
+            case "Rent":
+                categorySpinner.setSelection(0);
+                break;
+            case "Outright Purchase":
+                categorySpinner.setSelection(1);
+                break;
+            default:
+                break;
+        }
 
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -112,6 +146,18 @@ public class AddPropertyFragment extends Fragment {
 
             }
         });
+
+        latitude = ViewPropertyFragment.editProperty.getLatitude();
+        longitude = ViewPropertyFragment.editProperty.getLongitude();
+
+        propertyName.setText(ViewPropertyFragment.editProperty.getName());
+        property_address1.setText(ViewPropertyFragment.editProperty.getAddress1());
+        property_address2.setText(ViewPropertyFragment.editProperty.getAddress2());
+        property_zip.setText(ViewPropertyFragment.editProperty.getZip());
+        property_location.setText(ViewPropertyFragment.editProperty.getLatitude() + ", " + ViewPropertyFragment.editProperty.getLongitude());
+        property_value.setText(ViewPropertyFragment.editProperty.getCost());
+        property_size.setText(ViewPropertyFragment.editProperty.getSize());
+        property_description.setText(ViewPropertyFragment.editProperty.getDescription());
 
         property_location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,10 +199,11 @@ public class AddPropertyFragment extends Fragment {
             }
         });
 
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                id = getActivity().getIntent().getStringExtra("userid");
                 name = propertyName.getText().toString().trim();
                 address1 = property_address1.getText().toString().trim();
                 address2 = property_address2.getText().toString().trim();
@@ -165,9 +212,7 @@ public class AddPropertyFragment extends Fragment {
                 size = property_size.getText().toString();
                 description = property_description.getText().toString().trim();
 
-                id = getActivity().getIntent().getStringExtra("userid");
-
-                addProperty();
+                editProperty();
             }
         });
 
@@ -190,17 +235,71 @@ public class AddPropertyFragment extends Fragment {
         super.onPause();
     }
 
-    public void addProperty() {
+    public void editProperty() {
 
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
 
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constants.ADD_PROPERTY_URL, new Response.Listener<NetworkResponse>() {
+        /*StringRequest strReq = new StringRequest(Request.Method.POST,
+
+                Constant.EDIT_PROPERTY_URL + ViewPropertyFragment.editProperty.getId(), new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
+
+                android.app.FragmentManager fragmentManager = getFragmentManager();
+                android.app.FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.framentContainer, new ViewPropertyFragment());
+                ft.commit();
+
+                pDialog.hide();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("userid", id);
+                params.put("propertyname", name);
+                params.put("propertytype", type);
+                params.put("propertycat", category);
+                params.put("propertyaddress1", address1);
+                params.put("propertyaddress2", address2);
+                params.put("propertyzip", zip);
+                params.put("propertylat", latitude);
+                params.put("propertylong", longitude);
+                params.put("propertycost", cost);
+                params.put("propertysize", size);
+                params.put("propertydesc", description);
+                params.put("propertystatus", "yes");
+
+                return params;
+            }
+
+        };
+        AppController.getInstance().addToRequestQueue(strReq);*/
+
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constant.EDIT_PROPERTY_URL + ViewPropertyFragment.editProperty.getId(), new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
+/*
                 String resultResponse = new String(response.data);
                 Toast.makeText(getActivity(), resultResponse, Toast.LENGTH_LONG).show();
+*/
+
+                android.app.FragmentManager fragmentManager = getFragmentManager();
+                android.app.FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.framentContainer, new ViewPropertyFragment());
+                ft.commit();
+
                 pDialog.hide();
             }
         }, new Response.ErrorListener() {
@@ -247,6 +346,7 @@ public class AddPropertyFragment extends Fragment {
         };
 
         AppController.getInstance().addToRequestQueue(multipartRequest);
+
     }
 
     public byte[] helper(Bitmap bitmap) {
@@ -266,14 +366,14 @@ public class AddPropertyFragment extends Fragment {
                 propertyImage1.setImageBitmap(bitmap1);
             } catch (IOException e) {
             }
-        }else if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+        } else if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
             Uri uri = data.getData();
             try {
                 bitmap2 = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
                 propertyImage2.setImageBitmap(bitmap2);
             } catch (IOException e) {
             }
-        }else if (requestCode == 2 && resultCode == getActivity().RESULT_OK) {
+        } else if (requestCode == 2 && resultCode == getActivity().RESULT_OK) {
             Uri uri = data.getData();
             try {
                 bitmap3 = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
@@ -282,4 +382,5 @@ public class AddPropertyFragment extends Fragment {
             }
         }
     }
+
 }
