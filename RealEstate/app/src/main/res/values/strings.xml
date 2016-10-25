@@ -18,5 +18,57 @@
     <string name="add_property">Add Property</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="buyer_login">buyer_login</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="remember_me">remember_me</string>
+    <string name="forgot_password">forgot_password</string>
+    <string name="sign_in">sign_in</string>
+    <string name="or">or</string>
+    <string name="seller_login">log in</string>
+    <string name="register_title">register title</string>
+    <string name="username">username</string>
+    <string name="mobile">mobile</string>
+    <string name="data_of_birth">data of birth</string>
+    <string name="i_am_a">i am a</string>
+    <string name="buyer">buyer</string>
+    <string name="seller">seller</string>
+    <string name="register">register</string>
+    <string name="get_connected_with">get connected with</string>
+    <string name="the_best_agents">the best agents</string>
+    <string name="don_t_have_an_account_click_here_to_register">dont have an account click here to register</string>
+    <string name="living_harmony">living harmony</string>
+    <string name="real_estate_management">real estate management</string>
+    <string name="date_of_birth">date of birth</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+<string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--Google Analytics-->
+
+    <string name="title_activity_second">Second Activity</string>
+    <string name="toast_track_exception">Exception is recorded. Check the Crashes and Exceptions on Google Dashboard!</string>
+    <string name="toast_app_crash">The app will crash now! Check the Crashes and Exceptions on Google Dashboard!</string>
+    <string name="fragment_footer">Fragment is loaded! Check the screen view on Google Analytics Dashboard.</string>
+    <string name="msg_instructions">Click on each button to see the appropriate tracking on Google Analytics</string>
+    <string name="btn_second_screen">Second Screen</string>
+    <string name="btn_send_event">Track Event</string>
+    <string name="btn_exception_tracking">Track Exception</string>
+    <string name="btn_app_crash">Track App Crash</string>
+    <string name="btn_load_fragment">Fragment Tracking</string>
+
+    <!-- -->
+
+    <!--AdMob ad unit IDs-->
+    <string name="banner_home_footer">ca-app-pub-1434350605478032/8977193908</string>
+    <!-- -->
+
+    <!-- -->
+    <string-array name="user_type">
+        <item>Buyer</item>
+        <item>Seller</item>
+    </string-array>
+    <!-- -->
+
 
 </resources>
