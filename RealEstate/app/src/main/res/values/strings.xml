@@ -18,5 +18,8 @@
     <string name="add_property">Add Property</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 
 </resources>

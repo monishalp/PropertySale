@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -210,6 +212,7 @@ public class EditPropertyFragment extends Fragment {
                 description = property_description.getText().toString().trim();
 
                 editProperty();
+
             }
         });
 
@@ -284,7 +287,7 @@ public class EditPropertyFragment extends Fragment {
         };
         AppController.getInstance().addToRequestQueue(strReq);*/
 
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constant.EDIT_PROPERTY_URL + ViewPropertyFragment.editProperty.getId(), new Response.Listener<NetworkResponse>() {
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constants.EDIT_PROPERTY_URL + ViewPropertyFragment.editProperty.getId(), new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
 /*
@@ -342,8 +345,8 @@ public class EditPropertyFragment extends Fragment {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(multipartRequest);
-
+       // AppController.getInstance().addToRequestQueue(multipartRequest);
+        Volley.newRequestQueue(getActivity()).add(multipartRequest);
     }
 
     public byte[] helper(Bitmap bitmap) {
