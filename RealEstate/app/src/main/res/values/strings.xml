@@ -18,6 +18,7 @@
     <string name="add_property">Add Property</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+<<<<<<< HEAD
     <string name="buyer_login">buyer_login</string>
     <string name="email">email</string>
     <string name="password">password</string>
@@ -69,6 +70,10 @@
         <item>Seller</item>
     </string-array>
     <!-- -->
+=======
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+>>>>>>> 18392eb6f8f6a4e8299eb56a542767fe600d38ed
 
 
 </resources>

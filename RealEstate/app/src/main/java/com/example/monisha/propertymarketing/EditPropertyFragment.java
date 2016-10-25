@@ -345,7 +345,11 @@ public class EditPropertyFragment extends Fragment {
             }
         };
 
+<<<<<<< HEAD
         // AppController.getInstance().addToRequestQueue(multipartRequest);
+=======
+       // AppController.getInstance().addToRequestQueue(multipartRequest);
+>>>>>>> 18392eb6f8f6a4e8299eb56a542767fe600d38ed
         Volley.newRequestQueue(getActivity()).add(multipartRequest);
     }
 
