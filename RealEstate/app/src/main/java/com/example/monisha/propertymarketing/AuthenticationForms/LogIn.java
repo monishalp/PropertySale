@@ -2,29 +2,19 @@ package com.example.monisha.propertymarketing.AuthenticationForms;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.PowerManager;
-import android.renderscript.ScriptGroup;
-import android.speech.RecognitionListener;
+import android.content.SharedPreferences;
 import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
-
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -35,9 +25,6 @@ import com.example.monisha.propertymarketing.App.AnalyticsTrackers;
 import com.example.monisha.propertymarketing.Main2Activity;
 import com.example.monisha.propertymarketing.MainActivity;
 import com.example.monisha.propertymarketing.R;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.StandardExceptionParser;
@@ -49,32 +36,13 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
-
 import io.fabric.sdk.android.Fabric;
-
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.example.monisha.propertymarketing.R.id.spinner;
-import static com.example.monisha.propertymarketing.R.id.userType;
-
-/////import org.apache.commons.lang3.StringUtils;
-
 public class LogIn extends AppCompatActivity {
-
-
-
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
    private static final String TWITTER_KEY = "f4oU3YOURYJFnb0bOdOCxTLbC";
@@ -101,30 +69,20 @@ public class LogIn extends AppCompatActivity {
     String emailVolley;
     String passwordVolley;
     String userTypeVolley;
-
     boolean flagSelectedType=false;
-
     private ProgressDialog progDialog;
     private String urlLogin;
 
-    //Speech recognition
-
-
-
-    ////
-
-    //Admob
-
-    ////
 
     //Google Analytics
     public static final String TAG = LogIn.class
             .getSimpleName();
 
     private static LogIn mInstance;
-    ////Speeech Regonition block end
+    ////
 
-
+    //SharedPreferences for user authentication
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +92,7 @@ public class LogIn extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
         userTypeVolley=" ";
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner spinner = (Spinner) findViewById(R.id.user_type);
 
         // Initializing a String Array
         String[] plants = new String[]{
@@ -143,15 +101,11 @@ public class LogIn extends AppCompatActivity {
                 "Seller"
 
         };
-        //loginButton.setClickable(false);
-
-       // loginButton.setVisibility(View.INVISIBLE);
-
         // Initializing an ArrayAdapter
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                this,R.layout.spinner_item,R.id.text1, plants
+                this,R.layout.spinner_user_type_login,R.id.user_type, plants
         );
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_user_type_login);
         spinner.setAdapter(spinnerArrayAdapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -172,18 +126,11 @@ public class LogIn extends AppCompatActivity {
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-
-
-
-        //Admob
-
-        ////
 
         //Google Analytics
         mInstance = this;
@@ -193,8 +140,6 @@ public class LogIn extends AppCompatActivity {
         ////
 
         //twitter
-
-
                     loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
 
                     loginButton.setCallback(new Callback<TwitterSession>() {
@@ -206,8 +151,6 @@ public class LogIn extends AppCompatActivity {
                             String username = session.getUserName();
                             Long userid = session.getUserId();
 
-
-                            //textView.setText("Hi " + username);
                             if (userTypeVolley.equals("buyers") && (flagSelectedType=true)) {
                                 Toast.makeText(LogIn.this, "BUYER", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(LogIn.this, MainActivity.class);
@@ -252,6 +195,10 @@ public class LogIn extends AppCompatActivity {
         eEmail=(EditText)findViewById(R.id.eEmail);
         ePassword=(EditText)findViewById(R.id.ePassword);
 
+        //initialize sharedPreferencs obj
+        sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        ////
+
         //volley request initialization
         progDialog = new ProgressDialog(this);
         progDialog.setMessage("Loading...");
@@ -265,7 +212,6 @@ public class LogIn extends AppCompatActivity {
                 final String password=ePassword.getText().toString();
                 final String userType="buyers";
                 //volley req call
-
                 makeJsonStringReq(email, password, userType);
                 ////
             }
@@ -330,12 +276,6 @@ public class LogIn extends AppCompatActivity {
     }
 
     ////
-
-
-
-
-
-
     //volley post
     private void makeJsonStringReq(String email, String password, String userType){
 
@@ -343,14 +283,12 @@ public class LogIn extends AppCompatActivity {
         emailVolley=email.trim();
         passwordVolley=password.trim();
         userTypeVolley = userType.trim();
-       // showProgressDialog();
         progDialog.show();
 
         StringRequest strReq = new StringRequest(Request.Method.POST, urlLogin, new Response.Listener<String>(){
 
             @Override
             public void onResponse(String response) {
-
                         Log.i("responseiss" , response);
                         if(emailVolley.length()==0 || passwordVolley.length()==0){
                             Toast.makeText(LogIn.this, "Please enter a valid email/password", Toast.LENGTH_LONG).show();
@@ -371,14 +309,8 @@ public class LogIn extends AppCompatActivity {
                         else if(response.equals("[]")){
                             Toast.makeText(LogIn.this, "Invalid number or password", Toast.LENGTH_LONG ).show();
                         }
-
-
                     progDialog.hide();
                     progDialog.dismiss();
-                   // hideProgressDialog();
-
-
-
             }}
                 , new Response.ErrorListener() {
             @Override
@@ -406,15 +338,7 @@ public class LogIn extends AppCompatActivity {
         }
 ////
 
-
-    //Admob
-
-
-    ////
-
     //Google Analytics
-
-
     public static synchronized LogIn getInstance() {
         return mInstance;
     }
@@ -488,38 +412,44 @@ public class LogIn extends AppCompatActivity {
         Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something");
+        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say: \" remember \" to save your credentials,\n Say: \" display \" to display your credentials");
 
         try {
             startActivityForResult(i, 100);
+
         }catch(ActivityNotFoundException a){
             Toast.makeText(LogIn.this, "Sorry, your device doesn't support speech language,", Toast.LENGTH_LONG).show();
-
         }
     }
-
     public void onActivityResult(int request_code, int result_code, Intent i){
         super.onActivityResult(request_code, result_code, i);
-
         loginButton.onActivityResult(request_code, result_code, i);
 
         switch(request_code){
             case 100: if(result_code==RESULT_OK && i!=null){
                 ArrayList<String> result = i.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                ArrayList<String> result2 = i.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                if(result.get(0).equals("email")) {
-                    eEmail.setText(result2.get(0));
+
+                if(result.get(0).equals("remember")) {
+                    Toast.makeText(LogIn.this, "credentials saved", Toast.LENGTH_LONG).show();
+                    String email = eEmail.getText().toString();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email", email);
+                    String password=ePassword.getText().toString();
+                    editor.putString("password", password);
+
+                    editor.commit();
                 }
-                else if(result.get(0).equals("password")){
-                    ePassword.setText(result.get(0));
+                else if(result.get(0).equals("display")){
+                    Toast.makeText(LogIn.this, "credentials filled successfully", Toast.LENGTH_LONG).show();
+                    eEmail.setText(sharedPreferences.getString("email", ""));
+                    ePassword.setText(sharedPreferences.getString("password", ""));
+                }
+                else{
+                    Toast.makeText(LogIn.this, "command not recognized", Toast.LENGTH_LONG).show();
                 }
             }
                 break;
         }
     }
     //// Voice command end
-
-
-
-
 }

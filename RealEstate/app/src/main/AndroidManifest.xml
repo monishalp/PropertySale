@@ -16,7 +16,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -97,9 +96,6 @@
 
 
 
-=======
-        <activity android:name=".MainActivity" />
->>>>>>> 18392eb6f8f6a4e8299eb56a542767fe600d38ed
     </application>
 
 </manifest>

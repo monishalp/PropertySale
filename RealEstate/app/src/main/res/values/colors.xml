@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<<<<<<< HEAD
+
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -10,13 +10,7 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="btnBackground">#fcf8f8</color>
-=======
-    <color name="colorPrimary">#13ecec</color>
-    <color name="colorPrimaryDark">#06f9f9</color>
-    <color name="colorAccent">#13ecec</color>
-    <color name="colortext">#000000</color>
-    <color name="colorhint">#000000</color>
->>>>>>> 18392eb6f8f6a4e8299eb56a542767fe600d38ed
+
     <color name="back">#13ecec</color>
 
 </resources>

@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:largeHeap="true"
-    android:background="@drawable/background5"
+    android:background="@drawable/background8"
     tools:context="com.example.monisha.propertymarketing.AuthenticationForms.LogIn">
 
     <EditText
@@ -28,35 +28,6 @@
         android:paddingTop="25dp"
         android:textColor="@android:color/white" />
 
-    <Button
-        android:text=""
-        android:layout_width="200sp"
-        android:layout_height="20sp"
-        android:id="@+id/bRegistration"
-        android:background="@android:color/transparent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="30sp"
-        android:layout_marginStart="50dp"
-        android:id="@+id/bBuyersLogin"
-        android:background="@android:color/transparent"
-        android:layout_marginBottom="46dp"
-        android:layout_above="@+id/twitter_login_button"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="40sp"
-        android:background="@android:color/transparent"
-        android:id="@+id/bSellersLogin"
-        android:layout_alignTop="@+id/bBuyersLogin"
-        android:layout_alignEnd="@+id/spinner" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,22 +43,62 @@
         android:layout_alignStart="@+id/eEmail"
         android:textColor="@android:color/white" />
 
-    <Spinner
+    <Button
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:background="@android:color/transparent"
+        android:id="@+id/bSellersLogin"
+        android:layout_alignBottom="@+id/bBuyersLogin"
+        android:layout_toEndOf="@+id/twitter_login_button"
+        android:layout_marginStart="13dp" />
 
-        android:layout_width="100sp"
+    <Button
+        android:text=""
+        android:layout_width="wrap_content"
         android:layout_height="30sp"
-        android:id="@+id/spinner"
-        android:entries="@array/user_type"
-        android:backgroundTint="@color/btnBackground"
-        android:textColor="#FFFFFF"
-        android:paddingTop="50sp"
-        android:dropDownSelector="@color/btnBackground"
-        android:foregroundTint="@color/btnBackground"
-        tools:listheader="@color/btnBackground"
-        tools:listfooter="@color/btnBackground"
-        android:contextClickable="false"
-        android:layout_toEndOf="@+id/bBuyersLogin"
-        android:layout_above="@+id/twitter_login_button" />
+        android:id="@+id/bBuyersLogin"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="30dp"
+        android:layout_above="@+id/user_type"
+        android:layout_toStartOf="@+id/twitter_login_button" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:srcCompat="@drawable/logo"
+        android:id="@+id/imageView3"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp" />
+
+    <TextView
+        android:text="Quick Log In:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/qLogIn"
+        android:layout_above="@+id/eEmail"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/btnBackground" />
+
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="35dp"
+        ads:srcCompat="@drawable/mic7"
+        android:id="@+id/imageButton"
+        android:onClick="onButtonClick"
+        android:layout_above="@+id/eEmail"
+        android:layout_toEndOf="@+id/qLogIn"
+        android:layout_marginStart="12dp" />
+
+    <Button
+        android:text=""
+        android:layout_width="200sp"
+        android:layout_height="15sp"
+        android:id="@+id/bRegistration"
+        android:background="@android:color/transparent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/ePassword" />
 
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
         android:id="@+id/twitter_login_button"
@@ -98,26 +109,25 @@
         android:paddingTop="40sp"
         android:elevation="1dp"
         android:layout_above="@+id/bRegistration"
-        android:layout_centerHorizontal="true" />
-
-    <ImageButton
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        ads:srcCompat="@drawable/mic1"
-        android:layout_above="@+id/ePassword"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="36dp"
-        android:id="@+id/imageButton"
-        android:onClick="onButtonClick" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:srcCompat="@drawable/logo"
-        android:layout_above="@+id/imageButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="41dp"
-        android:id="@+id/imageView3" />
+        android:layout_marginBottom="15dp" />
+
+    <Spinner
+
+        android:layout_width="100sp"
+        android:layout_height="26sp"
+        android:id="@+id/user_type"
+        android:entries="@array/user_type"
+        android:backgroundTint="@color/btnBackground"
+        android:textColor="#FFFFFF"
+        android:paddingTop="50sp"
+        android:dropDownSelector="@color/btnBackground"
+        android:foregroundTint="@color/btnBackground"
+        tools:listheader="@color/btnBackground"
+        tools:listfooter="@color/btnBackground"
+        android:contextClickable="false"
+        android:layout_above="@+id/twitter_login_button"
+        android:layout_alignEnd="@+id/imageButton" />
 
 
 </RelativeLayout>

@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,14 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.monisha.propertymarketing.Main2Activity;
-import com.example.monisha.propertymarketing.MainActivity;
 import com.example.monisha.propertymarketing.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,11 +58,7 @@ public class Registration_Form extends AppCompatActivity {
     String address1Volley;
     String address2Volley;
     String userTypeVolley;
-
-
-
-
-
+    String userType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +72,46 @@ public class Registration_Form extends AppCompatActivity {
         regDOB=(TextView)findViewById(R.id.dob);
         regAddress1 = (TextView) findViewById(R.id.address1);
         regAddress2 = (TextView) findViewById(R.id.address2);
-        regUserType = (TextView) findViewById(R.id.userType);
+        userType="";
+        //regUserType = (TextView) findViewById(R.id.userType);
+
+        Spinner user_type = (Spinner) findViewById(R.id.user_type);
+
+        // Initializing a String Array
+        String[] plants = new String[]{
+                "type",
+                "Buyer",
+                "Seller"
+
+        };
+        // Initializing an ArrayAdapter
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                this,R.layout.spinner_user_type_register,R.id.user_type, plants
+        );
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_user_type_register);
+        user_type.setAdapter(spinnerArrayAdapter);
+
+        user_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position){
+                    case 0:
+                        userType="";
+                        break;
+                    case 1:
+                        userType="buyers";
+                        break;
+                    case 2:
+                        userType="seller";
+                        break;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         bRegister = (Button) findViewById(R.id.register);
         bGoBack = (Button) findViewById(R.id.bGoBack);
@@ -102,13 +133,12 @@ public class Registration_Form extends AppCompatActivity {
                 final String dob = regDOB.getText().toString();
                 final String address1 = regAddress1.getText().toString();
                 final String address2 = regAddress2.getText().toString();
-                final String userType = regUserType.getText().toString();
+                final String user_type=userType;
+               // userType = regUserType.getText().toString();
 
-                makeJsonStringReq(username, password, email, mobile, dob, address1, address2, userType);
 
-                //volley req call
 
-                // makeJsonStringReq(username, mobile, email, password, dob, address1, address2, userType);
+                makeJsonStringReq(username, password, email, mobile, dob, address1, address2, user_type);
 
             }
         });
@@ -123,13 +153,7 @@ public class Registration_Form extends AppCompatActivity {
 
     }
 
-
-
-    //volley request
-
-    //volley post
-
-
+    //volley post request
     private void makeJsonStringReq(String pUsername, String pPassword, String pEmail, String pMobile, String pDob, String pAddress1, String pAddress2, String pUserType){
 
         urlLogin="http://rjtmobile.com/realestate/register.php?signup";
@@ -152,9 +176,13 @@ public class Registration_Form extends AppCompatActivity {
                 if(emailVolley.length()==0 || passwordVolley.length()==0){
                     Toast.makeText(Registration_Form.this, "Please enter a valid password/email", Toast.LENGTH_LONG).show();
                 }
-                else if(response.contains("false")){
+                else if(!(userTypeVolley.equals("buyers") || userTypeVolley.equals("seller"))){
+                    Toast.makeText(Registration_Form.this, "select \"buyers\" or \"seller\" to register", Toast.LENGTH_LONG).show();
+                }
+                else if(response.contains("false") && (userTypeVolley.equals("buyers") || userTypeVolley.equals("seller")) && !(emailVolley.length()==0 || passwordVolley.length()==0)){
                     Toast.makeText(Registration_Form.this, "Email already registered", Toast.LENGTH_LONG).show();
                 }
+
                 else if(response.contains("true")){
                  /* Here launching another activity when login successful. If you persist login state
                      use sharedPreferences of Android. and logout button to clear sharedPreferences.
@@ -171,8 +199,6 @@ public class Registration_Form extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("LogIn: error", " check");
-                // hideProgressDialog();
-
                 progDialog.hide();
                 progDialog.dismiss();
 
@@ -182,47 +208,32 @@ public class Registration_Form extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<String,String>();
-                params.put(KEY_USERNAME, usernameVolley);
-                params.put(KEY_PASSWORD, passwordVolley);
-                params.put(KEY_EMAIL, emailVolley);
-                params.put(KEY_MOBILE, mobileVolley);
-                params.put(KEY_DOB, dobVolley);
-                params.put(KEY_ADDRESS1, address1Volley);
-                params.put(KEY_ADDRESS2, address2Volley);
-                params.put(KEY_USER_TYPE, userTypeVolley);
 
+                if(emailVolley.length()==0 || passwordVolley.length()==0){
+
+                    //Toast.makeText(Registration_Form.this, "Please enter a valid password/email", Toast.LENGTH_LONG).show();
+                }
+                else if(!(userTypeVolley.equals("buyers") || userTypeVolley.equals("seller"))){
+                   // Toast.makeText(Registration_Form.this, "select \"buyers\" or \"seller\" to register", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    params.put(KEY_USERNAME, usernameVolley);
+                    params.put(KEY_PASSWORD, passwordVolley);
+                    params.put(KEY_EMAIL, emailVolley);
+                    params.put(KEY_MOBILE, mobileVolley);
+                    params.put(KEY_DOB, dobVolley);
+                    params.put(KEY_ADDRESS1, address1Volley);
+                    params.put(KEY_ADDRESS2, address2Volley);
+                    params.put(KEY_USER_TYPE, userTypeVolley);
+                }
                 return params;
             }
-            /*
 
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                int mStatusCode = response.statusCode;
-
-                switch(mStatusCode){
-                    case HttpURLConnection.HTTP_OK:
-                        Log.i("response below", " :");
-                        Toast.makeText(LogIn.this, response.toString(), Toast.LENGTH_LONG).show();
-
-
-                        break;
-                    case HttpURLConnection.HTTP_NOT_FOUND:
-                        break;
-                    case HttpURLConnection.HTTP_INTERNAL_ERROR:
-                        break;
-                }
-                return super.parseNetworkResponse(response);
-            }*/
         };
         Volley.newRequestQueue(this).add(strReq);
         // AppController.getInstance().addToRequestQueue(strReq, "string_req");
     }
-
     ////
-
-
-
-
 }
 
 
