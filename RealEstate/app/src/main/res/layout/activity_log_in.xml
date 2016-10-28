@@ -81,16 +81,6 @@
         android:layout_alignParentStart="true"
         android:textColor="@color/btnBackground" />
 
-    <ImageButton
-        android:layout_width="25dp"
-        android:layout_height="35dp"
-        ads:srcCompat="@drawable/mic7"
-        android:id="@+id/imageButton"
-        android:onClick="onButtonClick"
-        android:layout_above="@+id/eEmail"
-        android:layout_toEndOf="@+id/qLogIn"
-        android:layout_marginStart="12dp" />
-
     <Button
         android:text=""
         android:layout_width="200sp"
@@ -128,6 +118,16 @@
         android:contextClickable="false"
         android:layout_above="@+id/twitter_login_button"
         android:layout_alignEnd="@+id/imageButton" />
+
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="35dp"
+        ads:srcCompat="@drawable/mic8"
+        android:id="@+id/imageButton"
+        android:onClick="onButtonClick"
+        android:layout_above="@+id/eEmail"
+        android:layout_toEndOf="@+id/qLogIn"
+        android:layout_marginStart="11dp" />
 
 
 </RelativeLayout>

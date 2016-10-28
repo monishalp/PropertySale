@@ -16,14 +16,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.monisha.propertymarketing.App.AnalyticsTrackers;
+import com.example.monisha.propertymarketing.Constants;
+import com.example.monisha.propertymarketing.Interface.DaggerLogInComponent;
+import com.example.monisha.propertymarketing.Interface.LogInComponent;
 import com.example.monisha.propertymarketing.Main2Activity;
 import com.example.monisha.propertymarketing.MainActivity;
+import com.example.monisha.propertymarketing.Modules.NetworkConnectionModule;
 import com.example.monisha.propertymarketing.R;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -84,12 +89,20 @@ public class LogIn extends AppCompatActivity {
     //SharedPreferences for user authentication
     SharedPreferences sharedPreferences;
 
+    Constants constants;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_log_in);
+
+        //creating Constants object with daggers 2
+        LogInComponent component= DaggerLogInComponent.builder().networkConnectionModule(new NetworkConnectionModule()).build();
+        constants=component.provideConstants();
+
+
 
         userTypeVolley=" ";
         Spinner spinner = (Spinner) findViewById(R.id.user_type);
@@ -279,13 +292,13 @@ public class LogIn extends AppCompatActivity {
     //volley post
     private void makeJsonStringReq(String email, String password, String userType){
 
-        urlLogin="http://rjtmobile.com/realestate/register.php?login";
+       // urlLogin="http://rjtmobile.com/realestate/register.php?login";
         emailVolley=email.trim();
         passwordVolley=password.trim();
         userTypeVolley = userType.trim();
         progDialog.show();
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, urlLogin, new Response.Listener<String>(){
+        StringRequest strReq = new StringRequest(Request.Method.POST, constants.getLoginURL(), new Response.Listener<String>(){
 
             @Override
             public void onResponse(String response) {
